@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://STJC15.github.io/my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
