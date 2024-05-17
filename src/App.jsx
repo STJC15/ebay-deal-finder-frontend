@@ -9,7 +9,6 @@ import SignUp from './firebase/SignUp'
 import AuthDetails from './Components/auth/AuthDetails';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Components/Header/Header'
-import TestComponent from './TestComponent';
 import { TailSpin } from 'react-loader-spinner';
 
 import { Bars, SpinningCircles } from 'react-loading-icons'
@@ -32,7 +31,6 @@ function App() {
               <TailSpin color={'#D3D3D3'} height={80} width={80} radius={10}/>
             </div>) : isFetch ? <DiscountItems props={results} /> : <h1 className="discount-items-container">No results found</h1>}</div>}
         />
-    {/* <Route path ="/discount" element={<TestComponent/>}/> */}
           <Route path="/login" element={<SignIn/>} />
           <Route path='/signup' element={<SignUp/>} />
         </Routes>
