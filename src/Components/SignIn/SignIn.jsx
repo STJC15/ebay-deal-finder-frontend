@@ -19,7 +19,7 @@ const SignIn = () => {
     });
   };
   return (
-    <div className="main">
+    <div className="main-container">
       <div className="sign-in-container">
           <form onSubmit={handleSignIn}>
               <h1>Log In</h1>
