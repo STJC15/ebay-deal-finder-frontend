@@ -16,7 +16,7 @@
 .sign-in-container h1{
     font-size:40px;
     text-align: center;
-    color:black;
+    color:white;
 }
 .input-box{
     position:relative;
@@ -38,5 +38,5 @@
     padding-left:20px
 }
 .input-box input::placeholder{
-    color:black;
+    color:white;
 }

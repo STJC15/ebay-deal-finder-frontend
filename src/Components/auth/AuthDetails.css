@@ -1,0 +1,9 @@
+.user-auth-container{
+    position:absolute;
+    margin-left:1230px;
+    display: flex;
+}
+.login-signup-container{
+    display:flex;
+    column-gap: 10px;
+}

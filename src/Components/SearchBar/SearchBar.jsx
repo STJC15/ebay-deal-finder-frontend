@@ -64,7 +64,7 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch}) => {
         <div className="icon-wrapper" onClick={handleOnclick}>
         <FaSearch />
         </div>
-        <input type="text" placeholder="Search" value = {input}
+        <input type="search" placeholder="Search" value = {input}
         onChange={(event) => handleChange(event)}
         onKeyDown={handleKeyDown} 
         onCompositionEnd={handleCompositionEnd}

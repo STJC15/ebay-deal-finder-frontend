@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { auth } from '../../firebase/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './SignIn.css'
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +11,7 @@ const SignIn = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential)=>{
-      console.log(userCredential);
+      console.log("id_token:",userCredential._tokenResponse.idToken);
       navigate('/');
     })
     .catch((error) => {
@@ -40,6 +40,9 @@ const SignIn = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required>
                 </input>
+              </div>
+              <div className="signup-link">
+                <p>Don't have an account? <Link to="/signup">Create one</Link></p>
               </div>
               <button type="submit" class="btn btn-primary w-100"> Log In </button>
           </form>

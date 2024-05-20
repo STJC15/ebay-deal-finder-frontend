@@ -45,14 +45,14 @@
   background-color: #f0f8ff !important;
   color:#007bff !important;
 }
-.login-button-container{
+/* .login-button-container{
   position:absolute;
-  margin-left: 1000px;
+  margin-right: 50px;
 }
 .signup-button-container{
   position:absolute;
-  margin-left: 1160px;
-}
+  margin-left: 160px;
+} */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
