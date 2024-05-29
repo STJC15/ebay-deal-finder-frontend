@@ -2,7 +2,6 @@
     width: 235px;
     border-radius: 6px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    cursor:pointer;
 }
 .item p{
     margin: 20px 0px;
@@ -45,6 +44,7 @@
     justify-content: center; 
     align-items: center;
     overflow: hidden; /* Hide any overflow */
+    cursor:pointer;
   }
 .image{
     width:auto;
@@ -56,12 +56,16 @@
     width:100%;
     height: 70px;
     /* margin-top:30px; */
+    cursor:pointer;
+}
+.title-box:hover{
+    color:#E68A00;
 }
 .title{
     font-size: '18px';
     text-align: 'center';
 }
-/* .item:hover{
-    transform: scale(0.9);
-    transition: 0.54s;
-} */
+.tool-bar{
+    margin-top:15px;
+    font-size:large;
+}

@@ -2,10 +2,10 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../Header/Header'; // Assuming this is your Header component
 
-const MainLayout = ({ setResults, setIsLoading, setIsFetch }) => {
+const MainLayout = ({ setResults, setIsLoading, setIsFetch, setUserData }) => {
   return (
     <>
-      <Header setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch} />
+      <Header setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch} setUserData={setUserData} />
       <Outlet />
     </>
   );

@@ -1,7 +1,14 @@
-import React from 'react';
+import { React, useState } from 'react';
 import "./item.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
+import { auth } from '../../firebase/firebase';
+import axios from 'axios';
 function Item(props) {
   // Open a new window when users click on items
+  const [isClick, setIsClick] = useState(props.isSaved || false);
+  const user = auth.currentUser;
   const routeChange = () =>{
     let path = props.itemUrl;
     window.open(path, "_blank");
@@ -13,13 +20,64 @@ function Item(props) {
     }
     return price;
   };
-
+  const handleClick = () =>{
+    console.log(isClick);
+    setIsClick(!isClick);
+    console.log("shipping", props.shipping_cost)
+    const payload = { itemId: props.id,
+                      imageUrl :props.image,
+                      title: props.title,
+                      new_price: props.new_price || "Unknown",
+                      old_price: props.old_price || "Unknown",
+                      discount_price: props.discount_price || "Unknown",
+                      shipping_cost: props.shipping_cost || "Unknown",
+                      coupons: props.coupons || "Unknown",
+                      discount_percent: props.discount_percent || "Unknown"};
+    if(user){
+      if(!isClick){
+        console.log(isClick);
+        user.getIdToken().then((idToken) => {
+          console.log("id token:", idToken);
+          const response = axios.post('https://8ifmea1fn4.execute-api.us-east-1.amazonaws.com/prod/create_user_data',payload, {
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${idToken}`
+            },
+        }).then(response =>{
+            console.log('Response:', response.data)})
+        .catch(error =>{console.log('Error', error.message)});
+        }).catch(error =>{console.log(error);
+        })
+      }
+      else{
+        user.getIdToken().then((idToken) => {
+          console.log("id token:", idToken);
+          const response = axios.delete('https://w4tp6fb2f1.execute-api.us-east-1.amazonaws.com/prod/delete_user_data', {
+            headers: {
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${idToken}`
+            },
+            data: payload
+        }).then(response =>{
+            console.log('Response:', response.data)})
+        .catch(error =>{console.log('Error', error.message)});
+        }).catch(error =>{console.log(error);
+        })
+      }
+    }
+    else{
+      console.log("user is not define");
+    }
+  }
   return (
-    <div className = "item" onClick={routeChange}>
-        <div className = "image-outer-box">
+    <div className = "item">
+        <div className = "image-outer-box" onClick={routeChange}>
         <img src = {props.image} alt = "" className="image"/>
         </div>
-            <div className="title-box"><p id="title">{props.name}</p></div>
+            <div className="title-box" onClick={routeChange}><p id="title">{props.title}</p></div>
+            <div className="tool-bar" onClick={handleClick}>
+            {isClick ? <FontAwesomeIcon icon={faSolidStar} color="#87CEEB" /> :<FontAwesomeIcon icon={faRegularStar} color="#87CEEB" />}
+            </div>
             <div className = "item-price">
                 <div className = "item-new-price">
                     New Price: <span className="new-price-value">${props.new_price}</span>

@@ -1,8 +1,13 @@
 import React from 'react';
 import Item from '../Item/Item';
 import './discount.css';
-
-const DiscountItems = ( {props} ) => {
+// import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+// import Favorite from "@mui/icons-material/Favorite";
+// import IconButton from "@mui/material/IconButton";
+const DiscountItems = ( {props, userData} ) => {
+  const isSavedItem = (itemId) =>{
+    return userData.some(item => item.itemId === itemId)
+  }
   return (
     <div>
       {props.length === 0 ? (
@@ -16,8 +21,9 @@ const DiscountItems = ( {props} ) => {
           <hr />
           <div className='discount-items'>
             {props?.map((item, i) => (
-              <Item key={i} 
-                    name={item.title} 
+              <Item key={i}
+                    id={item.itemId}
+                    title={item.title} 
                     image={item.image?.imageUrl ?? item.thumbnailImages?.imageUrl ?? item?.additionalImages?.[0]?.imageUrl}
                     old_price={item.marketingPrice?.originalPrice?.value ?? undefined}
                     discount_price={item.marketingPrice?.discountAmount?.value ?? undefined}
@@ -26,6 +32,7 @@ const DiscountItems = ( {props} ) => {
                     discount_percent={item.marketingPrice?.discountPercentage ?? undefined}
                     shipping_cost={item.shippingOptions?.[0]?.shippingCost?.value ?? undefined}
                     itemUrl={item.itemWebUrl}
+                    isSaved={isSavedItem(item.itemId)}
               />
             ))}
           </div>

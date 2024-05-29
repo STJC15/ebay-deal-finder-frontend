@@ -3,26 +3,23 @@ import './SearchBar.css';
 import { useState, useEffect } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { useNavigate, useLocation, createSearchParams } from 'react-router-dom';
-
+import axios from 'axios';
 const SearchBar = ({setResults, setIsLoading, setIsFetch}) => {
     const [input, setInput] = useState("");
     const [isIMEActive, setIsIMEActive] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    function fetchData(value) {
+    async function fetchData(value) {
         navigate({ 
             pathname: '/discount/', 
             search: createSearchParams({ search: encodeURIComponent(value) }).toString() 
           });
         console.log("trigged fetch");
         setIsLoading(true);
-        fetch('https://29skwolphl.execute-api.us-east-1.amazonaws.com/test/pull_ebay_data?search_query='+String(value),{
-            method: 'GET'
-        })
-        .then((res) => res.json())
-        .then((result) => {
-            setIsFetch(true)
-            setResults(result)
+        await axios.get('https://29skwolphl.execute-api.us-east-1.amazonaws.com/test/pull_ebay_data?search_query=' +String(value))
+        .then(response => {
+            setIsFetch(true);
+            setResults(response.data);
         })
         .catch((error) => {
             setIsFetch(false)
