@@ -36,10 +36,10 @@ function App() {
                   <TailSpin color={'#D3D3D3'} height={80} width={80} radius={10}/>
                 </div>) : isFetch ? <DiscountItems props={results} userData={userData} /> : <h1 className="discount-items-container">No results found</h1>}</div>}
             />
+            <Route path='/user-item-list' element={<UserItem props={userData}/>}/>
           </Route>
           <Route path="/login" element={<SignIn/>} />
           <Route path='/signup' element={<SignUp/>} />
-          <Route path='/user-item-list' element={<UserItem props={userData}/>}/>
         </Routes>
       </Router>
     </div>

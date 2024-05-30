@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import "./item.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
@@ -21,12 +21,12 @@ function Item(props) {
     return price;
   };
   const handleClick = () =>{
-    console.log(isClick);
     setIsClick(!isClick);
     console.log("shipping", props.shipping_cost)
     const payload = { itemId: props.id,
                       imageUrl :props.image,
                       title: props.title,
+                      itemUrl:props.itemUrl,
                       new_price: props.new_price || "Unknown",
                       old_price: props.old_price || "Unknown",
                       discount_price: props.discount_price || "Unknown",
@@ -35,7 +35,6 @@ function Item(props) {
                       discount_percent: props.discount_percent || "Unknown"};
     if(user){
       if(!isClick){
-        console.log(isClick);
         user.getIdToken().then((idToken) => {
           console.log("id token:", idToken);
           const response = axios.post('https://8ifmea1fn4.execute-api.us-east-1.amazonaws.com/prod/create_user_data',payload, {
@@ -76,7 +75,9 @@ function Item(props) {
         </div>
             <div className="title-box" onClick={routeChange}><p id="title">{props.title}</p></div>
             <div className="tool-bar" onClick={handleClick}>
-            {isClick ? <FontAwesomeIcon icon={faSolidStar} color="#87CEEB" /> :<FontAwesomeIcon icon={faRegularStar} color="#87CEEB" />}
+              <div className="star-icon">
+                {isClick ? <FontAwesomeIcon icon={faSolidStar} color="#87CEEB" /> :<FontAwesomeIcon icon={faRegularStar} color="#87CEEB" />}
+              </div>
             </div>
             <div className = "item-price">
                 <div className = "item-new-price">
