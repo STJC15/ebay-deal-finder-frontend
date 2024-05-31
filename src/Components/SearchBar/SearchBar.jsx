@@ -11,7 +11,7 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch}) => {
     const location = useLocation();
     async function fetchData(value) {
         navigate({ 
-            pathname: '/discount/', 
+            pathname: '/discount', 
             search: createSearchParams({ search: encodeURIComponent(value) }).toString() 
           });
         console.log("trigged fetch");
