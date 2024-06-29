@@ -4,11 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faRegularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as faSolidStar } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '../../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 function Item(props) {
   // Open a new window when users click on items
   const [isClick, setIsClick] = useState(props.isSaved || false);
   const user = auth.currentUser;
+  const navigate = useNavigate();
   const routeChange = () =>{
     let path = props.itemUrl;
     window.open(path, "_blank");
@@ -21,8 +23,6 @@ function Item(props) {
     return price;
   };
   const handleClick = () =>{
-    setIsClick(!isClick);
-    console.log("shipping", props.shipping_cost)
     const payload = { itemId: props.id,
                       imageUrl :props.image,
                       title: props.title,
@@ -34,6 +34,7 @@ function Item(props) {
                       coupons: props.coupons || "Unknown",
                       discount_percent: props.discount_percent || "Unknown"};
     if(user){
+      setIsClick(!isClick);
       if(!isClick){
         user.getIdToken().then((idToken) => {
           console.log("id token:", idToken);
@@ -65,7 +66,7 @@ function Item(props) {
       }
     }
     else{
-      console.log("user is not define");
+      navigate('/login');
     }
   }
   return (
