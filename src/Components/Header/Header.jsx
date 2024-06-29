@@ -8,7 +8,7 @@ const Header = ({setResults, setIsLoading, setIsFetch, setUserData}) => {
   return (
     <div className="header-container">
       <div className="search-bar-container">
-        <SearchBar setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch}/>
+        <SearchBar setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch} setUserData={setUserData}/>
       </div>
       <AuthDetails setUserData={setUserData}/>
   </div>

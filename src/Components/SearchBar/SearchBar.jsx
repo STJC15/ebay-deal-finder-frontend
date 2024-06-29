@@ -3,19 +3,21 @@ import './SearchBar.css';
 import { useState, useEffect } from 'react';
 import { FaSearch } from "react-icons/fa";
 import { useNavigate, useLocation, createSearchParams } from 'react-router-dom';
+import { auth } from '../../firebase/firebase';
 import axios from 'axios';
-const SearchBar = ({setResults, setIsLoading, setIsFetch}) => {
+const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData}) => {
     const [input, setInput] = useState("");
     const [isIMEActive, setIsIMEActive] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
+    const user = auth.currentUser;
     async function fetchData(value) {
         navigate({ 
             pathname: '/discount', 
             search: createSearchParams({ search: encodeURIComponent(value) }).toString() 
           });
-        console.log("trigged fetch");
         setIsLoading(true);
+        fetchUserData(user);
         await axios.get('https://29skwolphl.execute-api.us-east-1.amazonaws.com/test/pull_ebay_data?search_query=' +String(value))
         .then(response => {
             setIsFetch(true);
@@ -32,6 +34,18 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch}) => {
     const handleChange = (event) => {
         setInput(event.target.value);
     };
+    const fetchUserData = async (authUser) => {
+        authUser.getIdToken().then((idToken)=>{axios.get('https://o8vh9j1y5k.execute-api.us-east-1.amazonaws.com/prod/get_user_data', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${idToken}`
+                }
+            }).then(response=>{
+            console.log(response.data)
+            setUserData(response.data);})}) // Assuming setUserData is a function prop for setting user data in parent component
+         .catch(error => {
+            console.error('Error getting ID token:', error.message)});
+      };
     const handleKeyDown = (event) => {
         if(isIMEActive === false && event.key === "Enter" && input !== ""){
             fetchData(input);
