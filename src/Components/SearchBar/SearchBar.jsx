@@ -17,7 +17,11 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData}) => {
             search: createSearchParams({ search: encodeURIComponent(value) }).toString() 
           });
         setIsLoading(true);
-        fetchUserData(user);
+        auth.onAuthStateChanged(user => {
+            if(user){
+                fetchUserData(user);
+            }
+        });
         await axios.get('https://29skwolphl.execute-api.us-east-1.amazonaws.com/test/pull_ebay_data?search_query=' +String(value))
         .then(response => {
             setIsFetch(true);
