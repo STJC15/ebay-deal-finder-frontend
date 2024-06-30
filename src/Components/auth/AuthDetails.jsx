@@ -27,7 +27,7 @@ const AuthDetails = ({setUserData}) => {
     },[]);
     const handleSignOut = () =>{
         signOut(auth).then(() => {
-            console.log("User Signed Out");
+            navigate('/');
         })
         .catch((error) => {
             console.log(error);
@@ -40,7 +40,6 @@ const AuthDetails = ({setUserData}) => {
                   'Authorization': `Bearer ${idToken}`
               }
           }).then(response=>{
-          console.log(response.data)
           setUserData(response.data);})}) // Assuming setUserData is a function prop for setting user data in parent component
        .catch(error => {
           console.error('Error getting ID token:', error.message)});

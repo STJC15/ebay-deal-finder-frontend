@@ -37,7 +37,6 @@ function Item(props) {
       setIsClick(!isClick);
       if(!isClick){
         user.getIdToken().then((idToken) => {
-          console.log("id token:", idToken);
           const response = axios.post('https://8ifmea1fn4.execute-api.us-east-1.amazonaws.com/prod/create_user_data',payload, {
             headers: {
             'Content-Type': 'application/json',

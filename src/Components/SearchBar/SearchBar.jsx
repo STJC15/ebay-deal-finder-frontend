@@ -5,23 +5,20 @@ import { FaSearch } from "react-icons/fa";
 import { useNavigate, useLocation, createSearchParams } from 'react-router-dom';
 import { auth } from '../../firebase/firebase';
 import axios from 'axios';
-const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData}) => {
+const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData, currentUser}) => {
     const [input, setInput] = useState("");
     const [isIMEActive, setIsIMEActive] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const user = auth.currentUser;
     async function fetchData(value) {
         navigate({ 
             pathname: '/discount', 
             search: createSearchParams({ search: encodeURIComponent(value) }).toString() 
           });
         setIsLoading(true);
-        auth.onAuthStateChanged(user => {
-            if(user){
-                fetchUserData(user);
-            }
-        });
+        if(currentUser){
+            fetchUserData(currentUser);
+        }
         await axios.get('https://29skwolphl.execute-api.us-east-1.amazonaws.com/test/pull_ebay_data?search_query=' +String(value))
         .then(response => {
             setIsFetch(true);
@@ -45,7 +42,6 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData}) => {
                     'Authorization': `Bearer ${idToken}`
                 }
             }).then(response=>{
-            console.log(response.data)
             setUserData(response.data);})}) // Assuming setUserData is a function prop for setting user data in parent component
          .catch(error => {
             console.error('Error getting ID token:', error.message)});

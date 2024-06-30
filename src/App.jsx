@@ -19,14 +19,24 @@ function App() {
   const [isFetch, setIsFetch] = useState(false);
   const [idToken, setIdToken] = useState(null);
   const [userData, setUserData] = useState([]);
-  const user = auth.currentUser;
+  const [initializing, setInitializing] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
 
+  //Handle user state changes
+  function onAuthStateChanged(user) {
+    setCurrentUser(currentUser);
+    if (initializing) setInitializing(false);
+  }
+  useEffect(() => {
+    const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
   return (
     <div className="App">
       <Router>
         <Routes>
           <Route path='/'
-                element = {<MainLayout setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch} setUserData={setUserData}/>}>
+                element = {<MainLayout setResults={setResults} setIsLoading={setIsLoading} setIsFetch={setIsFetch} setUserData={setUserData} currentUser={currentUser}/>}>
           <Route 
               path="/discount"
               element={
