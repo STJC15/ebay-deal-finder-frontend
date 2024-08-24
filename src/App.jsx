@@ -24,7 +24,7 @@ function App() {
 
   //Handle user state changes
   function onAuthStateChanged(user) {
-    setCurrentUser(currentUser);
+    setCurrentUser(user);
     if (initializing) setInitializing(false);
   }
   useEffect(() => {

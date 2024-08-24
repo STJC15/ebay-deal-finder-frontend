@@ -36,16 +36,20 @@ const SearchBar = ({setResults, setIsLoading, setIsFetch, setUserData, currentUs
         setInput(event.target.value);
     };
     const fetchUserData = async (authUser) => {
-        authUser.getIdToken().then((idToken)=>{axios.get('https://o8vh9j1y5k.execute-api.us-east-1.amazonaws.com/prod/get_user_data', {
+        try{
+            const idToken = await authUser.getIdToken();
+            const response = await axios.get('https://o8vh9j1y5k.execute-api.us-east-1.amazonaws.com/prod/get_user_data', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${idToken}`
                 }
-            }).then(response=>{
-            setUserData(response.data);})}) // Assuming setUserData is a function prop for setting user data in parent component
-         .catch(error => {
-            console.error('Error getting ID token:', error.message)});
-      };
+            });
+            setUserData(response.data)
+        }
+        catch (error) {
+            console.error('Error getting ID token:', error.message);
+            }
+        };
     const handleKeyDown = (event) => {
         if(isIMEActive === false && event.key === "Enter" && input !== ""){
             fetchData(input);

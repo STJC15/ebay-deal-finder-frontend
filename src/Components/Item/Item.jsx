@@ -50,7 +50,6 @@ function Item(props) {
       }
       else{
         user.getIdToken().then((idToken) => {
-          console.log("id token:", idToken);
           const response = axios.delete('https://w4tp6fb2f1.execute-api.us-east-1.amazonaws.com/prod/delete_user_data', {
             headers: {
             'Content-Type': 'application/json',
